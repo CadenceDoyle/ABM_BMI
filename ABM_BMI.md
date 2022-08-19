@@ -343,7 +343,8 @@ more descriptive.
 ``` r
 ggplot(scenario4[[3]]$mean_df, mapping = aes(x = Ticks, y = BMI_equilibrium))+
   geom_line()+
-  labs(y = "Mean BMI", title = "Mean BMI by Timestep for Scenario 4, Run 3")
+  labs(y = "Mean BMI", 
+  title = "Mean BMI by Timestep for Scenario 4, Run 3")
 ```
 
 ![](ABM_BMI_files/figure-gfm/one_mean-1.png)<!-- -->
@@ -377,7 +378,9 @@ probability”
 ggplot(all_scenarios_mean_df, mapping = aes(x = Ticks, y = BMI_equilibrium, color = as.factor(run_id)))+
   geom_line()+
   facet_wrap(~ scenario_id, scales = "free")+
-  labs(y = "Mean BMI", title = "Mean BMI by Timestep", color = "Run Number")
+  labs(y = "Mean BMI", 
+  title = "Mean BMI by Timestep", 
+  color = "Run Number")
 ```
 
 ![](ABM_BMI_files/figure-gfm/all_means-1.png)<!-- -->
@@ -404,11 +407,13 @@ have an impact on BMI.
 ``` r
 ggplot(all_scenarios_final_df, mapping = aes(x = BMI))+
   geom_histogram(mapping = aes(fill = as.factor(run_id)))+
-  labs(y = "Number of Agents", x = "BMI Equilibrium Distribution", fill = "Model Iteration", title = "BMI Equilibrium Distribution by Scenario")+
+  labs(y = "Number of Agents", 
+  x = "BMI Equilibrium Distribution", 
+  fill = "Model Iteration", 
+  title = "BMI Equilibrium Distribution by Scenario")+
   facet_wrap(~scenario_id)
 ```
 
-    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
 ![](ABM_BMI_files/figure-gfm/final_hist_all-1.png)<!-- -->
 
@@ -416,7 +421,7 @@ ggplot(all_scenarios_final_df, mapping = aes(x = BMI))+
 
 In this figure, I plot the distribution of the final BMIs, or the BMI
 Equilibrium, in each model run. Similar to the model above, the
-“face\_wrap” function allows me to split the data into four graphs, each
+“facet\_wrap” function allows me to split the data into four graphs, each
 containing the runs of a separate scenarios. I changed the “run\_id” to
 a factor, since the “run\_id”s are discrete and not continuous
 variables.
@@ -429,10 +434,12 @@ of the equilibrium BMIs.
 ``` r
 ggplot(all_scenarios_final_df, mapping = aes(x = BMI))+
   geom_histogram(mapping = aes(fill = as.factor(scenario_id)))+
-  labs(y = "Number of Agents", x = "BMI Equilibrium Distribution", fill = "Scenario", title = "BMI Equilibrium Distribution by Scenario")
+  labs(y = "Number of Agents", 
+  x = "BMI Equilibrium Distribution", 
+  fill = "Scenario", 
+  title = "BMI Equilibrium Distribution by Scenario")
 ```
 
-    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
 ![](ABM_BMI_files/figure-gfm/hist_all-1.png)<!-- -->
 
