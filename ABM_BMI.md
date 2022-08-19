@@ -75,10 +75,10 @@ I will run the model 10 times for each of 4 conditions:
 ## Model Design
 
 To create the model, I wrote a function with four parameters: the
-satisficing radius of the BMI adjustment, “satisficing”, the rewiring
+satisficing radius of the BMI adjustment, ```satisficing```, the rewiring
 probability parameter that determines the level of clustering in the
-social static network, “rewiring\_probability”, the population size,
-“n”, and the number of ticks, “iterations”.
+social static network, ```rewiring_probability```, the population size,
+```n```, and the number of ticks, ```iterations```.
 
 ``` r
 ABM <- function(satisficing, rewiring_probability, n=100, iterations=200){
@@ -165,13 +165,13 @@ initialize BMI for each agent probabilistically as 15 + Gamma(α=3,
 β=.25). The ID is the number assigned to the agent for traceability.
 
 Next, we establish the environment for the agents. Using the R package
-igraph, we use the Watts-Strogatz algorithm to connect the agents
+```igraph```, we use the Watts-Strogatz algorithm to connect the agents
 through a static social network. The network has a mean degree of 4,
 corresponding to an ``` nei ``` of 2. We incorporate the variable rewiring
-parameter for flexibility, ``` rewiring\_probability ```.
+parameter for flexibility, ``` rewiring_probability ```.
 
 We can pull the edges of the graph to see which agents are connected to
-one another using the function ``` edgelist() ```.
+one another using the function ``` igraph::edgelist() ```.
 
 We want to be able to track the average BMI at each timestep of the
 model, so we create an empty data frame to store the means in. We also
@@ -184,14 +184,14 @@ stop running the model.
 
 The agents have an opportunity to update their BMI once per timestep,
 but they have to do so randomly. The ```sample()``` function allows us to
-create a random index to update the BMIs, so ```rand\_order``` stores that
-index. ```BMI\_j``` is used to apply the random index to the initial table to
+create a random index to update the BMIs, so ```rand_order``` stores that
+index. ```BMI_j``` is used to apply the random index to the initial table to
 grab BMIs related to j.
 
 Though Watts-Strogatz is an undirected graph, the function igraph stores
 the edges as directional. Therefore, we have to look at both the first
 and second columns in the edgelist to ensure we collect all agents
-connected to agent j. ```direction1\_j``` and ```direction2\_j``` accomplish
+connected to agent j. ```direction1_j``` and ```direction2_j``` accomplish
 this effort.
 
 To get the BMI of the connected agents, we then combine them and pull
@@ -201,21 +201,23 @@ If there are no agents connected to agent j, we ensure at least agent
 j’s BMI is pulled to prevent errors further on.
 
 We then average the BMIs of all connected agents, this is the ideal BMI
-or ```BMI\_ideal```. If there are no connected agents, ```BMI\_ideal``` will
+or ```BMI_ideal```. If there are no connected agents, ```BMI_ideal``` will
 simply return the BMI of agent j.
 
 Next, we define epsilon as the amount that an agent can change their BMI
 value. ```epsilon``` is either .1 or the difference between their BMI and
 the observed mean, whichever is smaller. ```epsilon``` is used to determine
-agent j’s new BMI, or ```new\_BMI``` using the following logic:
+agent j’s new BMI, or ```new_BMI``` using the following logic:
 
-If ```BMI\_j``` is greater than the ```BMI\_ideal``` plus the satisficing radius,
+If ```BMI_j``` is greater than the ```BMI_ideal``` plus the satisficing radius,
 decrease BMI by the value of ```epsilon```; 
-if BMIj is less than the ```BMI\_ideal``` minus the satisficing radius, increase BMI by the value of
-```epsilon```; 
-Otherwise, make no adjustments to BMI,
 
-We then store the updated ```BMI\_j``` in the initial data frame, and the loop
+if BMIj is less than the ```BMI_ideal``` minus the satisficing radius, increase BMI by the value of
+```epsilon```; 
+
+Otherwise, make no adjustments to BMI.
+
+We then store the updated ```BMI_j``` in the initial data frame, and the loop
 starts over for BMI\_(j+1). Once all agents have a chance to update
 their BMI in a time step, the mean BMI of that time step is recorded in
 the data frame mentioned above with the corresponding iteration, ```iter```.
@@ -259,10 +261,10 @@ scenario4 <- purrr::map(seq_len(runs), ~ABM(satisficing = .4,
 
 The instructions specify that each set of parameters must be run 10
 times. ```purrr::map()``` is a function that allows us to transform an input
-by applying a function to each element of the list. ```seq\_len(runs)```
+by applying a function to each element of the list. ```seq_len(runs)```
 creates a vector of 1 through 10, meaning the function ABM is run 10
 times. Each run is saved as a list, and has a sublist containing the
-```mean\_df``` and the ```final\_df``` for the particular model run and model
+```mean_df``` and the ```final_df``` for the particular model run and model
 conditions. Now we can look combine the data to observe the
 implications.
 
@@ -299,8 +301,8 @@ all_scenarios_mean_df <- bind_rows(scenario1_mean_df, scenario2_mean_df, scenari
 ```
 
 Above we use various functions in the ```purrr``` package to extract the
-```mean\_df``` from each run under each scenario. We also create two new
-columns to store the ```run\_id``` and ```scenario\_id```. We then bind all the
+```mean_df``` from each run under each scenario. We also create two new
+columns to store the ```run_id``` and ```scenario_id```. We then bind all the
 rows together in order to look at the data in the aggregate.
 
 ``` r
@@ -333,7 +335,7 @@ scenario4_final_df <- scenario4 %>%
 all_scenarios_final_df <- bind_rows(scenario1_final_df, scenario2_final_df, scenario3_final_df, scenario4_final_df)
 ```
 
-We use the same techniques to look at the ```final\_df``` from all
+We use the same techniques to look at the ```final_df``` from all
 scenarios. Next we want to look at different plots.
 
 ## Data Visualization and Results
@@ -388,7 +390,7 @@ ggplot(all_scenarios_mean_df, mapping = aes(x = Ticks, y = BMI_equilibrium, colo
 
 Here I’ve compiled all model runs to observe how the mean BMI changes at
 each timestep for the different model conditions and model runs. The
-```ggplot2::facet\_wrap()``` function allows me to split the data into four graphs, each
+```ggplot2::facet_wrap()``` function allows me to split the data into four graphs, each
 containing the runs of a separate scenario. The ```scales = free``` argument
 allows the program to select the best y axis fit.
 
@@ -422,8 +424,8 @@ ggplot(all_scenarios_final_df, mapping = aes(x = BMI))+
 
 In this figure, I plot the distribution of the final BMIs, or the BMI
 Equilibrium, in each model run. Similar to the model above, the
-```ggplot2::facet\_wrap``` function allows me to split the data into four graphs, each
-containing the runs of a separate scenarios. I changed the ```run\_id``` to
+```ggplot2::facet_wrap``` function allows me to split the data into four graphs, each
+containing the runs of a separate scenarios. I changed the ```run_id``` to
 a factor, since the run\_ids are discrete and not continuous
 variables.
 
@@ -447,7 +449,7 @@ ggplot(all_scenarios_final_df, mapping = aes(x = BMI))+
 
 This figure is very similar to the one above, but I look at the
 scenarios in the aggregate, rather than looking at the individual runs.
-Not that it is no longer facet wrapped, but color coded by ```scenario\_id```.
+Not that it is no longer facet wrapped, but color coded by ```scenario_id```.
 
 ### All Scenarios’ Equilibrium - Conclusions Drawn
 
