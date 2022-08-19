@@ -1,7 +1,6 @@
 ABM Simulation
 ================
 Cadence Doyle
-8/18/2022
 
 # Overview
 
@@ -20,7 +19,7 @@ The population consists of 100 agents with a current BMI and a set of
 social connections or friendships. The set of social connections will be
 detailed in Environments. BMIs for agents are initialized
 probabilistically from the distribution
-![15 + Gamma(α=3, β=.25)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;15%20%2B%20Gamma%28%CE%B1%3D3%2C%20%CE%B2%3D.25%29 "15 + Gamma(α=3, β=.25)").
+15 + Gamma(α=3, β=.25)
 The BMIs are created using a right-skewed gamma distribution as there
 are typically more overweight individuals than underweight individuals
 in US adults.
@@ -364,7 +363,7 @@ the population BMI over time. This one run suggests that agents follow
 the average of the BMI values they observe, but looking at the aggregate
 will uncover deeper intricacies.
 
-### All Runs’ Means - A Code Explanation
+### All Runs’ Means - Code Explanation
 
 The plot below shows the average BMI taken at each tick, for each run
 and scenario. As a reminder: Scenario 1 had a low (0) “satisficing
