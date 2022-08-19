@@ -167,7 +167,7 @@ initialize BMI for each agent probabilistically as 15 + Gamma(α=3,
 Next, we establish the environment for the agents. Using the R package
 igraph, we use the Watts-Strogatz algorithm to connect the agents
 through a static social network. The network has a mean degree of 4,
-corresponding to an ``` r “nei”``` of 2. We incorporate the variable rewiring
+corresponding to an ``` nei ``` of 2. We incorporate the variable rewiring
 parameter for flexibility, “rewiring\_probability”.
 
 We can pull the edges of the graph to see which agents are connected to
